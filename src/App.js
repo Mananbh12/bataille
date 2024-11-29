@@ -6,7 +6,6 @@ import Deck from "./Components/Deck"
 function App() {
   return (
     <div className="App">
-      <RenderCards />
       <Deck />
     </div>
   );
