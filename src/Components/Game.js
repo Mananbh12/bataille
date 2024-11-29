@@ -5,9 +5,9 @@ import { create } from "zustand";
 
 function extractAndConvertValue(cardString) {
   if(cardString=="SvgJ1"){
-    return 14;
+    return 15;
   }else if(cardString=="SvgJ2"){
-    return 14;
+    return 15;
   }
   const last = cardString.slice(-1).toLowerCase(); 
 
