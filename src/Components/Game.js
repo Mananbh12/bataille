@@ -5,9 +5,9 @@ import { create } from "zustand";
 
 function extractAndConvertValue(cardString) {
   if(cardString=="SvgJ1"){
-    return "J1";
+    return 14;
   }else if(cardString=="SvgJ2"){
-    return "J2";
+    return 14;
   }
   const last = cardString.slice(-1).toLowerCase(); 
 
@@ -29,7 +29,6 @@ function extractAndConvertValue(cardString) {
   }
 }
 
-// Store avec Zustand
 const useDeckStore = create((set) => ({
   deckJoueur: [],
   deckOrdi: [],
@@ -52,8 +51,6 @@ const useDeckStore = create((set) => ({
       deckJoueur: shuffledDeck.slice(0, 26),
       deckOrdi: shuffledDeck.slice(26, 52),
     });
-    console.log('Deck Joueur:', shuffledDeck.slice(0, 26));
-    console.log('Deck Ordi:', shuffledDeck.slice(26, 52));
   },
   setgame: () =>
     set((state) => {
@@ -71,7 +68,6 @@ const useDeckStore = create((set) => ({
       const indexJoueur = state.indexJoueur;
       if (indexJoueur < state.deckJoueur.length) {
         const carteJoueur = state.deckJoueur[indexJoueur].name; 
-        const valeurCarteJoueur = extractAndConvertValue(carteJoueur); 
         return {
           carteJoueur: carteJoueur, 
           indexJoueur: indexJoueur + 1, 
@@ -86,7 +82,6 @@ const useDeckStore = create((set) => ({
       const indexOrdi = state.indexOrdi;
       if (indexOrdi < state.deckOrdi.length) {
         const carteOrdi = state.deckOrdi[indexOrdi].name; 
-        const valeurCarteOrdi = extractAndConvertValue(carteOrdi); 
         return {
           carteOrdi: carteOrdi, 
           indexOrdi: indexOrdi + 1,  
@@ -104,6 +99,9 @@ const containerStyle = {
   justifyContent: 'center',
   alignItems: 'center',
   overflow: 'hidden',
+  backgroundColor: '#006400',
+  backgroundImage: 'radial-gradient(circle, rgba(0, 80, 0, 0.15) 1px, transparent 1px)', 
+  backgroundSize: '20px 20px', 
 };
 
 const cardContainerStyle = {
@@ -147,7 +145,6 @@ const Game = () => {
   const CardFrontOrdi = deckOrdi.length > 0 ? deck[deckOrdi[indexOrdi].name.slice(-2)] : '';
   const CardBack = deck['B2']; 
 
-  
   const comparerCartes = () => {
     const valeurCarteJoueur = extractAndConvertValue(carteJoueur);
     const valeurCarteOrdi = extractAndConvertValue(carteOrdi);
@@ -187,26 +184,48 @@ const Game = () => {
           left: '300px',
         }}>
           <ReactFlipCard
-            frontComponent={game ? <CardFrontJoueur style={{ width: '100%', height: '100%' }} /> : <CardBack style={{ width: '100%', height: '100%' }} />}
+            frontComponent={game ? <CardFrontJoueur style={{ width: '100%', height: '100%' }} /> : <CardBack />}
             backComponent={game ? <div>{carteOrdi}</div> : null}
             containerStyle={cardContainerStyle}
             flipCardStyle={{}}
             frontStyle={frontStyle}
             backStyle={frontBackStyle} />
+          <div style={{
+            position: 'absolute',
+            top: '230px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            color: 'black',
+          }}>
+            Ordi
+          </div>
         </div>
 
         <div style={{
           ...cardContainerStyle,
-          bottom: '20px',
+          bottom: '150px',
           right: '20px',
         }}>
           <ReactFlipCard
-            frontComponent={game ? <CardFrontOrdi style={{ width: '100%', height: '100%' }} /> : <CardBack style={{ width: '100%', height: '100%' }} />}
+            frontComponent={game ? <CardFrontOrdi style={{ width: '100%', height: '100%' }} /> : <CardBack />}
             backComponent={game ? <div>{carteJoueur}</div> : null} 
             containerStyle={cardContainerStyle}
             flipCardStyle={{}}
             frontStyle={frontStyle}
             backStyle={frontBackStyle} />
+          <div style={{
+            position: 'absolute',
+            top: '230px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            color: 'black',
+          }}>
+            Joueur
+          </div>
         </div>
       </div>
 
