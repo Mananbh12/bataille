@@ -3,27 +3,27 @@ import * as deck from '@letele/playing-cards';
 import ReactFlipCard from 'reactjs-flip-card';
 import { create } from "zustand";
 
-// Fonction pour extraire et convertir la valeur de la carte
 function extractAndConvertValue(cardString) {
-  const last = cardString.slice(-1).toLowerCase(); // Récupère le dernier caractère
+  if(cardString=="SvgJ1"){
+    return "J1";
+  }else if(cardString=="SvgJ2"){
+    return "J2";
+  }
+  const last = cardString.slice(-1).toLowerCase(); 
 
-  // Définir les valeurs des figures (J, Q, K)
   const value = {
     'j': 11,
     'q': 12,
     'k': 13,
     'a': 14,
   };
-
-  // Si le dernier caractère est un chiffre, le retourner directement
+   
   if (!isNaN(last)) {
-    return parseInt(last, 10); // Convertir en entier
+    return parseInt(last, 10);  
   } 
-  // Si le dernier caractère est une figure (J, Q, K)
   else if (value[last] !== undefined) {
     return value[last];
   } 
-  // Si aucune correspondance n'est trouvée, renvoyer null
   else {
     return null;
   }
@@ -66,34 +66,33 @@ const useDeckStore = create((set) => ({
       return { game: newGameState };
     }),
 
-  // Fonction pour mettre à jour la carte du joueur
   setcarteJoueur: () =>
     set((state) => {
       const indexJoueur = state.indexJoueur;
       if (indexJoueur < state.deckJoueur.length) {
-        const carteJoueur = state.deckJoueur[indexJoueur].name; // Accède à la propriété 'name' de l'objet
-        const valeurCarteJoueur = extractAndConvertValue(carteJoueur); // Applique la fonction pour récupérer la valeur
+        const carteJoueur = state.deckJoueur[indexJoueur].name; 
+        const valeurCarteJoueur = extractAndConvertValue(carteJoueur); 
         return {
-          carteJoueur: carteJoueur, // Mise à jour avec le nom de la carte
-          indexJoueur: indexJoueur + 1, // Incrémente l'index pour la carte suivante
+          carteJoueur: carteJoueur, 
+          indexJoueur: indexJoueur + 1, 
         };
       }
-      return state; // Retourne l'état inchangé si aucune carte n'est disponible
+      return state; 
     }),
 
-  // Fonction pour mettre à jour la carte de l'ordinateur
+  
   setcarteOrdi: () =>
     set((state) => {
       const indexOrdi = state.indexOrdi;
       if (indexOrdi < state.deckOrdi.length) {
-        const carteOrdi = state.deckOrdi[indexOrdi].name; // Accède à la propriété 'name' de l'objet
-        const valeurCarteOrdi = extractAndConvertValue(carteOrdi); // Applique la fonction pour récupérer la valeur
+        const carteOrdi = state.deckOrdi[indexOrdi].name; 
+        const valeurCarteOrdi = extractAndConvertValue(carteOrdi); 
         return {
-          carteOrdi: carteOrdi, // Mise à jour avec le nom de la carte
-          indexOrdi: indexOrdi + 1, // Incrémente l'index pour la carte suivante
+          carteOrdi: carteOrdi, 
+          indexOrdi: indexOrdi + 1,  
         };
       }
-      return state; // Retourne l'état inchangé si aucune carte n'est disponible
+      return state;  
     }),
 }));
 
@@ -133,7 +132,7 @@ const Game = () => {
 
   useEffect(() => {
     if (!game) {
-      distribution(); // Call distribution only when the game is not active
+      distribution(); 
     }
   }, [game, distribution]);
 
@@ -146,9 +145,9 @@ const Game = () => {
 
   const CardFrontJoueur = deckJoueur.length > 0 ? deck[deckJoueur[indexJoueur].name.slice(-2)] : ''; 
   const CardFrontOrdi = deckOrdi.length > 0 ? deck[deckOrdi[indexOrdi].name.slice(-2)] : '';
-  const CardBack = deck['B2']; // Arrière de la carte
+  const CardBack = deck['B2']; 
 
-  // Comparer les valeurs des cartes et déterminer le gagnant
+  
   const comparerCartes = () => {
     const valeurCarteJoueur = extractAndConvertValue(carteJoueur);
     const valeurCarteOrdi = extractAndConvertValue(carteOrdi);
@@ -213,10 +212,10 @@ const Game = () => {
 
       <button
         onClick={() => {
-          setcarteJoueur(); // Charge la carte suivante pour le joueur
-          setcarteOrdi(); // Charge la carte suivante pour l'ordinateur
-          setgame(); // Bascule l'état du jeu
-          comparerCartes(); // Comparer les cartes et afficher le résultat
+          setcarteJoueur(); 
+          setcarteOrdi(); 
+          setgame(); 
+          comparerCartes(); 
         }}
         style={{
           position: 'absolute',

@@ -1,6 +1,5 @@
 import logo from './logo.svg';
 import './App.css';
-import RenderCards from './Components/Rendercards';
 import Game from "./Components/Game"
 
 function App() {
