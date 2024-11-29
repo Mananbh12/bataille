@@ -1,12 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
 import RenderCards from './Components/Rendercards';
-import Deck from "./Components/Deck"
+import Game from "./Components/Game"
 
 function App() {
   return (
     <div className="App">
-      <Deck />
+      <Game />
     </div>
   );
 }
